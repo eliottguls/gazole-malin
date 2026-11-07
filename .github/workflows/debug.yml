@@ -1,0 +1,14 @@
+name: Diagnostic
+on: workflow_dispatch
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          API="https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2"
+          echo "=== Stations à 2 km de Coëtmieux (toutes, sans filtre) ==="
+          curl -fsS -G "$API/records" --data-urlencode "where=within_distance(geom, geom'POINT(-2.591416 48.477036)', 2km)" --data-urlencode "limit=20" | python3 -m json.tool
+          echo "=== Recherche texte Bel Air / Coetmieux ==="
+          curl -fsS -G "$API/records" --data-urlencode "where=search(\"coetmieux\") or search(\"bel air\") and cp like \"22%\"" --data-urlencode "limit=10" | python3 -m json.tool
+          echo "=== Schéma du dataset ==="
+          curl -fsS "$API" | python3 -c "import json,sys;d=json.load(sys.stdin);print([f['name'] for f in d['fields']])"
