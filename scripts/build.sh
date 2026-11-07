@@ -3,7 +3,7 @@
 set -euo pipefail
 API="https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2"
 FIELDS="id,adresse,ville,cp,geom"
-for f in gazole e10 sp95 sp98 e85 gplc; do FIELDS="$FIELDS,${f}_prix,${f}_maj"; done
+for f in gazole e10 sp95 sp98 e85 gplc; do FIELDS="$FIELDS,${f}_prix,${f}_maj,${f}_rupture_debut,${f}_rupture_type"; done
 
 rm -rf _site && mkdir -p _site/data
 cp index.html app.js cost.js data.js style.css _site/
@@ -22,3 +22,13 @@ curl -fsS -G "$API/records" \
   --data-urlencode "limit=3" | tee /tmp/sample.json
 echo
 node -e "const j=JSON.parse(require('fs').readFileSync('/tmp/sample.json'));if(!j.total_count)process.exit(1);console.log('Requête géo OK :',j.total_count,'stations')"
+
+# Vérifie les requêtes « export » utilisées par l'app (rayon et rectangle du mode trajet)
+for zone in "within_distance(geom, geom'POINT(-1.6778 48.1173)', 5km)" "in_bbox(geom, 48.0, -2.0, 48.3, -1.5)"; do
+  N=$(curl -fsS -G "$API/exports/json" \
+    --data-urlencode "where=$zone and (gazole_prix is not null or gazole_rupture_type = \"temporaire\")" \
+    --data-urlencode "select=id,geom,gazole_prix,gazole_maj,gazole_rupture_debut,gazole_rupture_type" \
+    | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>console.log(JSON.parse(s).length))")
+  echo "Export [$zone] : $N stations"
+  [ "$N" -gt 0 ] || { echo "Requête export vide"; exit 1; }
+done
