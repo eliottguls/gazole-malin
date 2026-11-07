@@ -1,7 +1,7 @@
-import { haversineKm, rankStations, extraKmOf, distanceToLineKm, ROAD_FACTOR } from './cost.js';
+import { haversineKm, rankStations, extraKmOf, distanceToLineKm, ROAD_FACTOR } from './cost.js?v=__V__';
 import {
   FUELS, fetchStationsAround, fetchStationsInBox, searchAddress, roadDistancesKm, fetchRoute, detoursKm,
-} from './data.js';
+} from './data.js?v=__V__';
 
 const DEFAULTS = { mode: 'around', fuel: 'gazole', consumption: 5.8, liters: 40, radius: 15, corridor: 5 };
 const ROAD_CANDIDATES = 25; // nb de stations pour lesquelles on calcule la vraie distance routière

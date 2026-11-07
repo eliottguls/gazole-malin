@@ -8,6 +8,9 @@ for f in gazole e10 sp95 sp98 e85 gplc; do FIELDS="$FIELDS,${f}_prix,${f}_maj,${
 rm -rf _site && mkdir -p _site/data
 cp index.html app.js cost.js data.js style.css _site/
 touch _site/.nojekyll
+# Anti-cache : chaque publication change l'URL des fichiers JS/CSS
+V="${GITHUB_SHA:-$(date +%s)}"; V="${V:0:8}"
+sed -i "s/__V__/$V/g" _site/index.html _site/app.js _site/data.js
 
 curl -fsS --retry 3 --compressed -G "$API/exports/json" \
   --data-urlencode "select=$FIELDS" -o _site/data/stations.json

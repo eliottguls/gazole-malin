@@ -54,16 +54,37 @@ h1, h2 { line-height: 1.2; }
 
 @media (min-width: 960px) {
   body { height: 100vh; overflow: hidden; }
-  .layout { display: grid; grid-template-columns: minmax(380px, 440px) 1fr; height: 100vh; }
+  .layout {
+    display: grid; height: 100vh;
+    grid-template-columns: 340px minmax(0, 1fr);
+    grid-template-rows: 55vh minmax(0, 1fr);
+    grid-template-areas: "panel map" "panel list";
+  }
   .panel {
-    max-width: none; margin: 0; padding: 0 20px 24px;
-    overflow-y: auto; border-right: 1px solid var(--border); background: var(--bg);
+    grid-area: panel; max-width: none; margin: 0; padding: 0 20px 24px;
+    overflow-y: auto; border-right: 1px solid var(--border); background: var(--surface);
     scrollbar-gutter: stable;
   }
-  .map-col { display: block; position: relative; }
+  .panel .card.search { box-shadow: none; background: var(--bg); }
+  .results-col { grid-area: list; overflow-y: auto; padding: 16px 20px 24px; scrollbar-gutter: stable; }
+  .map-col { grid-area: map; display: block; position: relative; border-bottom: 1px solid var(--border); }
+  .layout:has(.results-col[hidden]) { grid-template-areas: "panel map" "panel map"; }
   .map-col .map-wrap { position: absolute; inset: 0; }
   .map-col .map { height: 100%; border-radius: 0; border: 0; }
+  .results-col .list-title { margin-top: 20px; }
 }
+@media (min-width: 1280px) {
+  .layout {
+    grid-template-columns: 340px 440px minmax(0, 1fr);
+    grid-template-rows: 100vh;
+    grid-template-areas: "panel list map";
+  }
+  .layout:has(.results-col[hidden]) { grid-template-columns: 340px minmax(0, 1fr); grid-template-areas: "panel map"; }
+  .results-col { border-right: 1px solid var(--border); }
+  .map-col { border-bottom: 0; }
+}
+.results-col { padding: 0 16px 24px; max-width: 640px; margin: 0 auto; }
+@media (min-width: 960px) { .results-col { max-width: none; margin: 0; } }
 
 .top { padding: 20px 0 12px; }
 h1 { margin: 0; font-size: 1.375rem; letter-spacing: -.01em; }
@@ -251,3 +272,8 @@ summary { cursor: pointer; color: var(--muted); font-weight: 600; font-size: .87
 .chips .chip:hover { border-color: var(--accent); color: var(--text); background: var(--surface-2); }
 .list.collapsed li.extra { display: none; }
 .more { width: 100%; margin-top: 8px; }
+button { white-space: nowrap; }
+@media (min-width: 960px) {
+  .panel .actions { flex-direction: column-reverse; }
+  .panel .actions button { width: 100%; }
+}

@@ -1,5 +1,5 @@
 // Accès aux données : prix des carburants, géocodage, itinéraires.
-import { haversineKm } from './cost.js';
+import { haversineKm } from './cost.js?v=__V__';
 
 const PRICES_API =
   'https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2';

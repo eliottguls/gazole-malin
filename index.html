@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#0f766e">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛽</text></svg>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=__V__">
 </head>
 <body>
   <div class="layout">
@@ -75,18 +75,6 @@
 
       <p id="status" class="status" role="status" aria-live="polite"></p>
 
-      <section id="results" hidden>
-        <article id="best" class="card best"></article>
-        <div id="map-slot-mobile"></div>
-        <h2 class="list-title" id="list-title">Classement par coût total</h2>
-        <ol id="list" class="list"></ol>
-        <button type="button" id="more" class="secondary more" hidden></button>
-        <details id="unavailable-wrap" class="unavailable" hidden>
-          <summary id="unavailable-title"></summary>
-          <ul id="unavailable" class="list muted-list"></ul>
-        </details>
-        <p class="footnote" id="footnote"></p>
-      </section>
 
       <section id="intro" class="intro">
         <h2>Comment ça marche</h2>
@@ -99,6 +87,19 @@
         · Adresses : Géoplateforme IGN · Routes : OSRM · Carte : © OpenStreetMap, © CARTO
       </footer>
     </aside>
+
+    <section id="results" class="results-col" hidden>
+      <article id="best" class="card best"></article>
+      <div id="map-slot-mobile"></div>
+      <h2 class="list-title" id="list-title">Classement par coût total</h2>
+      <ol id="list" class="list"></ol>
+      <button type="button" id="more" class="secondary more" hidden></button>
+      <details id="unavailable-wrap" class="unavailable" hidden>
+        <summary id="unavailable-title"></summary>
+        <ul id="unavailable" class="list muted-list"></ul>
+      </details>
+      <p class="footnote" id="footnote"></p>
+    </section>
 
     <div id="map-slot-desktop" class="map-col">
       <div id="map-wrap" class="map-wrap">
@@ -113,6 +114,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script type="module" src="app.js"></script>
+  <script type="module" src="app.js?v=__V__"></script>
 </body>
 </html>
