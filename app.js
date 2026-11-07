@@ -418,15 +418,16 @@ let map;
 let layer;
 let fitBoundsCache;
 const markers = new Map();
-const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 function ensureMap() {
   if (map || !window.L) return Boolean(map);
   map = L.map('map', { zoomControl: false, zoomSnap: 0.25, scrollWheelZoom: desktop.matches }).setView([46.6, 2.4], 6);
   L.control.zoom({ position: 'topright' }).addTo(map);
-  L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/${dark ? 'dark_all' : 'voyager'}/{z}/{x}/{y}{r}.png`, {
-    maxZoom: 19, subdomains: 'abcd',
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/attributions">CARTO</a>',
+  // Tuiles OpenStreetMap standard (sans clé) ; en mode sombre, inversées en CSS
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    className: 'osm-tiles',
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
   layer = L.layerGroup().addTo(map);
   return true;

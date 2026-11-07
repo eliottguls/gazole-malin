@@ -277,3 +277,10 @@ button { white-space: nowrap; }
   .panel .actions { flex-direction: column-reverse; }
   .panel .actions button { width: 100%; }
 }
+@media (prefers-color-scheme: dark) {
+  .osm-tiles { filter: invert(1) hue-rotate(180deg) brightness(.9) contrast(.9) saturate(.6); }
+}
+/* Ancienne page en cache sans colonne liste : on garde 2 colonnes */
+@media (min-width: 960px) {
+  .layout:not(:has(.results-col)) { grid-template-columns: 340px minmax(0, 1fr); grid-template-rows: 100vh; grid-template-areas: "panel map"; }
+}
