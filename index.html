@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gazole malin</title>
+  <meta name="description" content="Trouve la station la plus rentable autour de toi : prix du plein + coût du trajet.">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛽</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Gazole malin</h1>
+    <p class="tagline">La station la plus rentable, trajet compris.</p>
+  </header>
+
+  <main>
+    <form id="search" class="card" autocomplete="off">
+      <label for="address">Adresse de départ</label>
+      <div class="address-wrap">
+        <input id="address" name="address" type="text" inputmode="search"
+               placeholder="ex. 12 rue de la Paix, Rennes" aria-autocomplete="list"
+               aria-controls="suggestions" aria-expanded="false">
+        <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
+      </div>
+      <div class="actions">
+        <button type="button" id="locate" class="secondary">📍 Ma position</button>
+        <button type="submit" id="go">Trouver la station</button>
+      </div>
+
+      <details id="settings">
+        <summary>Réglages</summary>
+        <div class="grid">
+          <label>Carburant
+            <select id="fuel"></select>
+          </label>
+          <label>Conso (L/100 km)
+            <input id="consumption" type="number" step="0.1" min="1" max="30">
+          </label>
+          <label>Litres par plein
+            <input id="liters" type="number" step="1" min="5" max="150">
+          </label>
+          <label>Rayon (km)
+            <input id="radius" type="number" step="1" min="2" max="50">
+          </label>
+        </div>
+      </details>
+    </form>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <section id="results" hidden>
+      <article id="best" class="card best"></article>
+      <div id="map" class="map" aria-label="Carte des stations"></div>
+      <h2 class="list-title">Classement par coût total</h2>
+      <ol id="list" class="list"></ol>
+      <p class="footnote" id="footnote"></p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    Prix : <a href="https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/">data.economie.gouv.fr</a>
+    · Adresses : Géoplateforme IGN · Routes : OSRM · Carte : © OpenStreetMap
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
